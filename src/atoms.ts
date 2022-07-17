@@ -6,6 +6,11 @@ export interface IToDo {
     category: "To_Do" | "Doing" | "Done";
 }
 
+export const categoryAtom = atom({
+    key: "category",
+    default: "To_Do"
+})
+
 export const toDoAtom = atom<IToDo[]>({
     key: "toDo",
     default: [],
@@ -16,11 +21,9 @@ export const toDoAtom = atom<IToDo[]>({
 export const toDoSelector = selector({
     key: "toDoSelector",
     get: ({get}) => {
+        // selector 가 toDos와 category를 받아서 category에 따라 toDos를 분류한다. 
         const toDos = get(toDoAtom);
-        return [
-            toDos.filter(category => category.category === "To_Do"),
-            toDos.filter(category => category.category === "Doing"),
-            toDos.filter(category => category.category === "Done"),
-        ]
+        const category = get(categoryAtom);
+        return toDos.filter((todo) => todo.category === category);
     }, 
 })

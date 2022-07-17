@@ -18,11 +18,13 @@ function ToDo({text, id, category}: IToDo) {
         })
     }
     return (
-        <li>
-            <span>{text}</span> 
-            {category !== "Doing" && <button name="Doing" onClick={onClick}>진행중</button>}
-            {category !== "To_Do" && <button name="To_Do" onClick={onClick}>할 일</button>}
-            {category !== "Done" && <button name="Done" onClick={onClick}>완료</button>}
+        <li style={{width:"100%", marginBottom:"20px", borderRadius:"5px", backgroundColor:"#cbb3ef", display: "flex", justifyContent: "space-between", padding:"20px"}}>
+            <h3 style={{marginBottom:"10px", width:"60%", wordBreak: "break-word"}}>{text}</h3>
+            <div style={{display:"flex", flexDirection: "column"}}>
+                {category !== "Doing" && <button style={{outline: "none", border:"none", marginBottom:"5px"}} name="Doing" onClick={onClick}>진행중</button>}
+                {category !== "To_Do" && <button style={{outline: "none", border:"none", marginBottom:"5px"}} name="To_Do" onClick={onClick}>할 일</button>}
+                {category !== "Done" && <button style={{outline: "none", border:"none", marginBottom:"5px"}} name="Done" onClick={onClick}>완료</button>}
+            </div>
         </li>
     )
 }
