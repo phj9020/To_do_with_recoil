@@ -1,23 +1,25 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { IForm } from '../interface';
-import { toDoAtom } from '../atoms';
+import { categoryAtom, toDoAtom } from '../atoms';
 import { useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 function CreateToDo() {
     // method 1 : recoil [getState, modifyFn] = useRecoilState(Atom)
     // method 2 : recoil const modifyFn = useSetRecoilState(Atom)
     // method 2 : recoil const getState = useRecoilValue(Atom)
     const setToDos = useSetRecoilState(toDoAtom);  
+    const category = useRecoilValue(categoryAtom);
     // react-hook-form fn  
     const {register, handleSubmit, setValue, formState : {errors}} = useForm<IForm>();
-  
+
     const onValid = (data: IForm) => {
         setToDos((oldToDos) => [{
             id: Date.now(),
             text: data.toDo,
-            category: "To_Do"
-        }, ...oldToDos]);
+            category
+            }, ...oldToDos]);
         // input 초기화 react-hook-form
         setValue("toDo","")
     }
