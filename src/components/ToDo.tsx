@@ -17,6 +17,15 @@ function ToDo({text, id, category}: IToDo) {
             return [...first, newToDo, ...back];
         })
     }
+
+    const deleteToDo = (e : React.MouseEvent<HTMLButtonElement>) => {
+        setToDos((oldToDos)=> {
+            const targetIndex = oldToDos.findIndex(toDo => toDo.id === id);
+            const first = oldToDos.slice(0,targetIndex);
+            const back = oldToDos.slice(targetIndex+1);
+            return [...first, ...back];
+        });
+    }
     return (
         <li style={{width:"100%", marginBottom:"20px", borderRadius:"5px", backgroundColor:"#cbb3ef", display: "flex", justifyContent: "space-between", padding:"20px"}}>
             <h3 style={{marginBottom:"10px", width:"60%", wordBreak: "break-word"}}>{text}</h3>
@@ -24,6 +33,7 @@ function ToDo({text, id, category}: IToDo) {
                 {category !== Categories.Doing && <button style={{outline: "none", border:"none", marginBottom:"5px"}} name={Categories.Doing} onClick={onClick}>진행중</button>}
                 {category !== Categories.To_Do && <button style={{outline: "none", border:"none", marginBottom:"5px"}} name={Categories.To_Do} onClick={onClick}>할 일</button>}
                 {category !== Categories.Done && <button style={{outline: "none", border:"none", marginBottom:"5px"}} name={Categories.Done} onClick={onClick}>완료</button>}
+                {category !== Categories.Delete && <button style={{outline: "none", border:"none", marginBottom:"5px"}} name={Categories.Delete} onClick={deleteToDo}>삭제</button>}
             </div>
         </li>
     )
