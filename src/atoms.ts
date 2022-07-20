@@ -1,4 +1,5 @@
 import { atom, selector } from "recoil";
+import { recoilPersist } from "recoil-persist";
 
 export enum Categories {
     "To_Do" = "To_Do",
@@ -11,6 +12,12 @@ export interface IToDo {
     text: string;
     category: Categories;
 }
+// local storage save using recoil-persist
+const { persistAtom } = recoilPersist({
+    key: "recoil-persist",
+    storage: localStorage,
+});
+    
 
 export const categoryAtom = atom<Categories>({
     key: "category",
@@ -20,6 +27,7 @@ export const categoryAtom = atom<Categories>({
 export const toDoAtom = atom<IToDo[]>({
     key: "toDo",
     default: [],
+    effects_UNSTABLE: [persistAtom],
 });
 
 // Selector는 atom의 output을 변형시키는 도구이다
@@ -33,3 +41,5 @@ export const toDoSelector = selector({
         return toDos.filter((todo) => todo.category === category);
     }, 
 })
+
+
